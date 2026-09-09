@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calculadora de Salário Líquido</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Arial, Helvetica, sans-serif; background: #eef2f6; color: #1a202c; }
+    header { background: #1a365d; color: #fff; padding: 18px 24px; }
+    header h1 { margin: 0; font-size: 20px; }
+    header p { margin: 4px 0 0; font-size: 13px; opacity: .85; }
+    main { max-width: 540px; margin: 36px auto; padding: 0 16px 40px; }
+    .card { background: #fff; border-radius: 10px; padding: 28px; box-shadow: 0 8px 24px rgba(26,54,93,.08); }
+    h2 { margin: 0 0 8px; color: #1a365d; font-size: 22px; }
+    .hint { color: #4a5568; font-size: 13px; margin-bottom: 18px; }
+    label { display: block; font-size: 13px; font-weight: 700; margin: 12px 0 6px; }
+    input {
+      width: 100%; padding: 10px 12px; border: 1px solid #cbd5e0; border-radius: 6px; font-size: 15px;
+    }
+    button {
+      margin-top: 18px; width: 100%; background: #2b6cb0; color: #fff; border: 0;
+      padding: 12px; border-radius: 6px; font-size: 15px; font-weight: 700; cursor: pointer;
+    }
+    button:hover { background: #2c5282; }
+    .regras { margin-top: 16px; font-size: 12px; color: #4a5568; line-height: 1.5; }
+    #painel { margin-top: 18px; }
+    .erro { background: #fff5f5; border: 1px solid #feb2b2; color: #c53030; padding: 14px 16px; border-radius: 8px; font-weight: 700; }
+    .ok { background: #f0fff4; border: 1px solid #9ae6b4; color: #276749; padding: 10px 14px; border-radius: 8px; font-weight: 700; margin-bottom: 12px; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    td { padding: 9px 6px; border-bottom: 1px solid #edf2f7; }
+    td:last-child { text-align: right; }
+    .neg { color: #c53030; }
+    .pos { color: #276749; }
+    .total { font-size: 18px; font-weight: 700; color: #1a365d; }
+    .total td { border-bottom: 0; padding-top: 14px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Calculadora de Salário Líquido</h1>
+    <p>Aula prática A4 · Framework Python · mesmas regras do Flask</p>
+  </header>
+  <main>
+    <div class="card">
+      <h2>Informe os dados</h2>
+      <p class="hint">INSS 8%, IR 15% se o bruto for maior que R$ 2.500,00 e R$ 200,00 por dependente.</p>
+      <form id="formCalc">
+        <label for="salario">Salário bruto (R$)</label>
+        <input id="salario" name="salario" placeholder="Ex.: 3000,00" autocomplete="off">
+        <label for="dependentes">Número de dependentes</label>
+        <input id="dependentes" name="dependentes" placeholder="Ex.: 2" autocomplete="off">
+        <button type="submit">Calcular</button>
+      </form>
+      <div id="painel"></div>
+      <div class="regras">
+        Líquido = bruto − INSS − IR + (dependentes × 200).<br>
+        IR só incide se o salário bruto for maior que R$ 2.500,00.
+      </div>
+    </div>
+  </main>
+  <script>
+    function br(n) {
+      return n.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+    function parseNumero(txt) {
+      const limpo = String(txt).trim().replace(/\s/g, "");
+      if (!limpo) throw new Error("vazio");
+      const normal = limpo.includes(",") ? limpo.replace(/\./g, "").replace(",", ".") : limpo;
+      const n = Number(normal);
+      if (!Number.isFinite(n)) throw new Error("nao numerico");
+      return n;
+    }
+    document.getElementById("formCalc").addEventListener("submit", function (ev) {
+      ev.preventDefault();
+      const painel = document.getElementById("painel");
+      try {
+        const salario = parseNumero(document.getElementById("salario").value);
+        const dependentes = parseNumero(document.getElementById("dependentes").value);
+        if (!Number.isInteger(dependentes)) {
+          painel.innerHTML = '<div class="erro">Erro: insira valores numéricos válidos.</div>';
+          return;
+        }
+        if (salario < 0) {
+          painel.innerHTML = '<div class="erro">Salário não pode ser negativo.</div>';
+          return;
+        }
+        if (dependentes < 0) {
+          painel.innerHTML = '<div class="erro">Número de dependentes não pode ser negativo.</div>';
+          return;
+        }
+        const inss = salario * 0.08;
+        const ir = salario > 2500 ? salario * 0.15 : 0;
+        const abatimento = dependentes * 200;
+        const liquido = salario - inss - ir + abatimento;
+        painel.innerHTML =
+          '<div class="ok">Cálculo concluído com as regras da aula.</div>' +
+          '<table>' +
+          '<tr><td>Salário bruto</td><td>R$ ' + br(salario) + '</td></tr>' +
+          '<tr><td>Dependentes</td><td>' + dependentes + '</td></tr>' +
+          '<tr><td>INSS (8%)</td><td class="neg">− R$ ' + br(inss) + '</td></tr>' +
+          '<tr><td>IR (15% se bruto &gt; 2.500)</td><td class="neg">− R$ ' + br(ir) + '</td></tr>' +
+          '<tr><td>Abatimento por dependentes</td><td class="pos">+ R$ ' + br(abatimento) + '</td></tr>' +
+          '<tr class="total"><td>Salário líquido</td><td>R$ ' + br(liquido) + '</td></tr>' +
+          '</table>';
+      } catch (e) {
+        painel.innerHTML = '<div class="erro">Erro: insira valores numéricos válidos.</div>';
+      }
+    });
+  </script>
+</body>
+</html>

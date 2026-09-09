@@ -1,49 +1,39 @@
 # Framework para Desenvolvimento de Software
 
-Projetos das aulas práticas da disciplina **Framework para Desenvolvimento de Software**  
-Faculdade Anhanguera de São Gonçalo — ADS (EAD)
+Projetos das aulas práticas — Faculdade Anhanguera de São Gonçalo (ADS / EAD)
 
 Aluno: Marcelo Silvestre Leite  
 Matrícula: 2025173333
+
+## Rodar a calculadora agora (sem instalar nada)
+
+Abra este arquivo no navegador:
+
+- No repositório: pasta `docs/index.html` → botão **Raw** não serve; use o preview:
+- Preview direto: https://htmlpreview.github.io/?https://github.com/MarceloSilvestreleite/framework-desenvolvimento-software-aulas/blob/main/docs/index.html
+- Ou baixe o ZIP do repositório, abra a pasta `docs` e dê dois cliques em `index.html`
+
+Depois que o GitHub Pages publicar (Settings → Pages), o link fixo fica:
+https://marcelosilvestreleite.github.io/framework-desenvolvimento-software-aulas/
+
+Mesmas regras da aula Flask: INSS 8%, IR 15% se bruto &gt; 2500, R$ 200 por dependente.
 
 ## Pastas
 
 | Pasta | Aula | O que faz |
 |---|---|---|
-| `calculadora_salario_flask/` | U4 A4 — Framework Python | Calculadora web de salário líquido em Flask |
-| `cadastro_produtos_android/` | U3 A4 — Frameworks mobile | App Android (Java) com cadastro de produtos e SQLite |
+| `docs/` | versão para abrir no navegador | Calculadora pronta |
+| `calculadora_salario_flask/` | U4 A4 — Framework Python | Código Flask da entrega |
+| `cadastro_produtos_android/` | U3 A4 — Frameworks mobile | App Android + SQLite |
 
-## Como rodar o Flask
+## Flask na máquina (entrega da faculdade)
 
 ```bash
 cd calculadora_salario_flask
 python -m venv venv
-# Windows:
 venv\Scripts\activate
-# Linux/Mac:
-# source venv/bin/activate
 pip install -r requirements.txt
 python app.py
 ```
 
 Abra http://127.0.0.1:5000
-
-Regras da aula:
-
-- INSS = 8% do salário bruto
-- IR = 15% do bruto se o valor for **maior** que R$ 2.500,00
-- Cada dependente soma R$ 200,00 no líquido
-- Recusa salário negativo, dependente negativo e entrada não numérica
-
-## Como rodar o Android
-
-1. Abra o Android Studio
-2. **File > Open** e selecione a pasta `cadastro_produtos_android`
-3. Espere o Gradle sincronizar
-4. Rode no emulador (API 24+)
-
-Validações:
-
-- Nome com no mínimo 3 caracteres
-- Preço numérico e maior que zero
-- Dados ficam no SQLite (`produtos.db`) depois de fechar o app
