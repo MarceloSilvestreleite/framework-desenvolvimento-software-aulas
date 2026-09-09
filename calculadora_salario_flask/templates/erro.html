@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Erro — validação</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Arial, Helvetica, sans-serif; background: #eef2f6; color: #1a202c; }
+    header { background: #1a365d; color: #fff; padding: 18px 24px; }
+    header h1 { margin: 0; font-size: 20px; }
+    main { max-width: 520px; margin: 36px auto; }
+    .card { background: #fff; border-radius: 10px; padding: 28px; box-shadow: 0 8px 24px rgba(26,54,93,.08); }
+    .box { background: #fff5f5; border: 1px solid #feb2b2; color: #c53030; padding: 14px 16px; border-radius: 8px; font-weight: 700; }
+    p { color: #4a5568; font-size: 14px; }
+    a { display: inline-block; margin-top: 16px; color: #2b6cb0; text-decoration: none; font-weight: 700; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Calculadora de Salário Líquido</h1>
+  </header>
+  <main>
+    <div class="card">
+      <div class="box">{{ mensagem }}</div>
+      <p>Nenhum cálculo foi realizado. Corrija os campos e envie o formulário outra vez.</p>
+      <a href="/">← Voltar ao formulário</a>
+    </div>
+  </main>
+</body>
+</html>

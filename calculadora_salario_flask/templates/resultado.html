@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Resultado — Salário Líquido</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Arial, Helvetica, sans-serif; background: #eef2f6; color: #1a202c; }
+    header { background: #1a365d; color: #fff; padding: 18px 24px; }
+    header h1 { margin: 0; font-size: 20px; }
+    header p { margin: 4px 0 0; font-size: 13px; opacity: .85; }
+    main { max-width: 560px; margin: 36px auto; }
+    .card { background: #fff; border-radius: 10px; padding: 28px; box-shadow: 0 8px 24px rgba(26,54,93,.08); }
+    h2 { margin: 0 0 16px; color: #1a365d; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    td { padding: 9px 6px; border-bottom: 1px solid #edf2f7; }
+    td:last-child { text-align: right; font-variant-numeric: tabular-nums; }
+    .neg { color: #c53030; }
+    .pos { color: #276749; }
+    .total { font-size: 18px; font-weight: 700; color: #1a365d; }
+    .total td { border-bottom: 0; padding-top: 14px; }
+    a { display: inline-block; margin-top: 18px; color: #2b6cb0; text-decoration: none; font-weight: 700; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Calculadora de Salário Líquido</h1>
+    <p>Flask · resultado do cálculo</p>
+  </header>
+  <main>
+    <div class="card">
+      <h2>Salário líquido calculado</h2>
+      <table>
+        <tr><td>Salário bruto</td><td>R$ {{ "%.2f"|format(salario_bruto) }}</td></tr>
+        <tr><td>Dependentes</td><td>{{ dependentes }}</td></tr>
+        <tr><td>INSS (8%)</td><td class="neg">− R$ {{ "%.2f"|format(inss) }}</td></tr>
+        <tr><td>IR (15% se bruto &gt; 2.500)</td><td class="neg">− R$ {{ "%.2f"|format(ir) }}</td></tr>
+        <tr><td>Abatimento por dependentes</td><td class="pos">+ R$ {{ "%.2f"|format(abatimento) }}</td></tr>
+        <tr class="total"><td>Salário líquido</td><td>R$ {{ "%.2f"|format(liquido) }}</td></tr>
+      </table>
+      <a href="/">← Nova consulta</a>
+    </div>
+  </main>
+</body>
+</html>
